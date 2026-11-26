@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daily log</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body class="log-page">
+  <main class="log-layout">
+    <header class="log-header">
+      <a class="back-link" href="/" aria-label="Back to calendar">
+        <img src="/back-arrow.svg" alt="" aria-hidden="true">
+      </a>
+      <h1 id="clock" class="log-date">Loading selected date…</h1>
+    </header>
+
+    <form id="log-form" class="daily-log-form" novalidate>
+      <input id="entry-date" name="date" type="hidden">
+      <div class="log-columns">
+        <div class="notes-column">
+          <section aria-labelledby="notes-heading">
+            <h2 id="notes-heading" class="log-section-heading">Notes</h2>
+            <div class="notes-paper">
+              <img src="/note-paper.svg" alt="" aria-hidden="true">
+              <textarea id="notes" name="notes" maxlength="150" aria-label="Quick notes" placeholder="Write a quick note…"></textarea>
+            </div>
+          </section>
+
+          <section class="mood-section" aria-labelledby="mood-heading">
+            <h2 id="mood-heading" class="log-section-heading">Mood</h2>
+            <div class="mood-options" role="group" aria-labelledby="mood-heading">
+              <button class="mood-choice mood-happy" type="button" data-mood="happy" aria-pressed="false">
+                <img src="/mood-happy.svg" alt="" aria-hidden="true">
+                <span>Happy</span>
+              </button>
+              <button class="mood-choice mood-angry" type="button" data-mood="angry" aria-pressed="false">
+                <img src="/mood-angry.svg" alt="" aria-hidden="true">
+                <span>Angry</span>
+              </button>
+              <button class="mood-choice mood-peaceful" type="button" data-mood="peaceful" aria-pressed="false">
+                <img src="/mood-peaceful.svg" alt="" aria-hidden="true">
+                <span>Peaceful</span>
+              </button>
+              <button class="mood-choice mood-sad" type="button" data-mood="sad" aria-pressed="false">
+                <img src="/mood-sad.svg" alt="" aria-hidden="true">
+                <span>Sad</span>
+              </button>
+              <button class="mood-choice mood-stressed" type="button" data-mood="stressed" aria-pressed="false">
+                <img src="/mood-stressed.svg" alt="" aria-hidden="true">
+                <span>Stressed</span>
+              </button>
+            </div>
+          </section>
+
+          <div class="log-form-actions">
+            <button class="save-button" type="submit">Save</button>
+            <button id="delete-entry" class="save-button" type="button">Delete</button>
+          </div>
+          <p id="save-status" role="status" aria-live="polite"></p>
+        </div>
+
+        <section class="log-column" aria-labelledby="log-heading">
+          <h2 id="log-heading" class="log-section-heading">Log</h2>
+          <div class="log-paper">
+            <img class="log-lines" src="/log-lines.svg" alt="" aria-hidden="true">
+            <textarea id="log" name="log" required maxlength="1000" aria-label="Daily log" placeholder="Write about your day…"></textarea>
+          </div>
+        </section>
+      </div>
+    </form>
+
+    <img class="paper-plane" src="/paper-plane.svg" alt="" aria-hidden="true">
+  </main>
+</body>
+</html>

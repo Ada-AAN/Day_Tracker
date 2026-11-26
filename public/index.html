@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Day Planner Calendar</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body class="calendar-page">
+  <main class="calendar-layout">
+    <h1 class="calendar-title">How are you?</h1>
+    <p id="current-date" class="visually-hidden" aria-live="polite"></p>
+
+    <section class="calendar-paper" aria-label="Monthly calendar">
+      <img class="calendar-paper-art" src="/calendar-paper.svg" alt="" aria-hidden="true">
+
+      <div class="month-bar">
+        <button id="previous-month" class="month-nav" type="button" aria-label="Previous month">‹</button>
+        <h2 id="month-label" class="month-title" aria-live="polite">
+          <span id="month-name"></span>
+          <span id="year-label"></span>
+        </h2>
+        <button id="next-month" class="month-nav" type="button" aria-label="Next month">›</button>
+        <button id="today-button" class="today-button" type="button">Today</button>
+      </div>
+
+      <div id="calendar-grid" class="calendar-grid" role="grid" aria-labelledby="month-label" aria-describedby="current-date"></div>
+
+      <img class="paperclip paperclip-red" src="/paperclip-red.svg" alt="" aria-hidden="true">
+      <img class="paperclip paperclip-blue" src="/paperclip-blue.svg" alt="" aria-hidden="true">
+    </section>
+  </main>
+</body>
+</html>
