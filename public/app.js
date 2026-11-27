@@ -83,6 +83,11 @@ if (monthLabel && monthNameLabel && yearLabel && currentDateLabel && calendarGri
     const firstWeekday = new Date(displayedYear, displayedMonth, 1).getDay();
     const daysInMonth = new Date(displayedYear, displayedMonth + 1, 0).getDate();
     const monthDate = new Date(displayedYear, displayedMonth, 1);
+    const todayIso = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, '0'),
+      String(now.getDate()).padStart(2, '0')
+    ].join('-');
     monthNameLabel.textContent = monthFormatter.format(monthDate);
     yearLabel.textContent = String(displayedYear);
 
@@ -120,12 +125,26 @@ if (monthLabel && monthNameLabel && yearLabel && currentDateLabel && calendarGri
           cell.setAttribute('aria-hidden', 'true');
         } else {
           const date = new Date(displayedYear, displayedMonth, day);
-          const link = document.createElement('a');
           const isoDate = [
             date.getFullYear(),
             String(date.getMonth() + 1).padStart(2, '0'),
             String(date.getDate()).padStart(2, '0')
           ].join('-');
+          if (isoDate > todayIso) {
+            const unavailableDate = document.createElement('span');
+            unavailableDate.className = 'calendar-day is-future';
+            unavailableDate.textContent = String(day);
+            unavailableDate.setAttribute('aria-disabled', 'true');
+            unavailableDate.setAttribute(
+              'aria-label',
+              `${dateFormatter.format(date)}, future date unavailable`
+            );
+            cell.append(unavailableDate);
+            weekRow.append(cell);
+            continue;
+          }
+
+          const link = document.createElement('a');
           link.className = 'calendar-day';
           link.href = `/logpage.html?date=${isoDate}`;
           link.textContent = String(day);
@@ -245,12 +264,18 @@ if (logForm && entryDateField && logField && notesField && saveStatus && saveBut
 
   const requestedDate = new URLSearchParams(window.location.search).get('date');
   const entryDate = requestedDate || toLocalIsoDate(new Date());
-  const selectedDateIsValid = isValidIsoDate(entryDate);
+  const entryDateIsValid = isValidIsoDate(entryDate);
+  const entryDateIsFuture = entryDateIsValid && entryDate > toLocalIsoDate(new Date());
+  const selectedDateIsValid = entryDateIsValid && !entryDateIsFuture;
   entryDateField.value = selectedDateIsValid ? entryDate : '';
 
   if (selectedDateIsValid) {
     const [year, month, day] = entryDate.split('-').map(Number);
     dateLabel.textContent = dateFormatter.format(new Date(year, month - 1, day)).toUpperCase();
+  } else if (entryDateIsFuture) {
+    dateLabel.textContent = 'Future dates are unavailable.';
+    saveStatus.textContent = 'Return to the calendar and choose today or an earlier date.';
+    saveButton.disabled = true;
   } else {
     dateLabel.textContent = 'The selected date is invalid.';
     saveStatus.textContent = 'Return to the calendar and choose a valid date.';
